@@ -12,11 +12,21 @@ app.get('/', (c) => {
   return c.text('Hello Hono!')
 })
 
-app.post("/api/v1/signup",(c)=>{
+app.post("/api/v1/signup",async (c)=>{
   const DB_URL=c.env.DATABASE_URL;
   const prisma = new PrismaClient({
     datasourceUrl: DB_URL,
 }).$extends(withAccelerate())
+
+
+  const body=await c.req.json();
+   await prisma.user.create({
+    data:{
+      email:body.email,
+      password:body.password
+    }
+   })
+
   return c.json({
     message:"This is working"
   })
