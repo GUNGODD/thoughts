@@ -30,7 +30,7 @@ app.put("/api/v1/blog",(c)=>{
   })
 })
 
-app.get("/api/v1/blog",(c)=>{
+app.get("/api/v1/blog/:id",(c)=>{
   return c.json({
     message:"Getting all blogs"
   })
