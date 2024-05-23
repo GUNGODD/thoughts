@@ -37,7 +37,29 @@ app.post("/api/v1/signup",async (c)=>{
   })
 })
 
-app.post("api/v1/login",(c)=>{
+app.post("api/v1/login",async (c)=>{
+  const DB_URL=c.env.DATABASE_URL;
+  const prisma = new PrismaClient({
+    datasourceUrl: DB_URL,
+}).$extends(withAccelerate())
+
+  const body=await c.req.json();
+  const user=await prisma.user.findUnique({
+    where:{
+      email:body.email, 
+      password:body.password
+    }
+  })
+
+  if(!user){
+    c.status(401);
+    return c.json({
+      "message":"User not found"
+    })
+    
+  }
+  const jwt=await sign({id:user.id},c.env.JWT_SECRET)
+
   return c.json({
     message:"Login route is also working"
   })
