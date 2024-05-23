@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { Hono } from 'hono'
+import {decode,sign,verify} from "hono/jwt";
 
 const app = new Hono<{
   Bindings:{
@@ -20,15 +21,18 @@ app.post("/api/v1/signup",async (c)=>{
 
 
   const body=await c.req.json();
-   await prisma.user.create({
+   const user = await prisma.user.create({
     data:{
       email:body.email,
       password:body.password
-    }
+    } 
    })
 
+   const token = sign({id:user.id},"secret")
+
   return c.json({
-    message:"This is working"
+    message:"This is working",
+    token:token
   })
 })
 
