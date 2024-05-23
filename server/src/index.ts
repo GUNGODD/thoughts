@@ -10,6 +10,20 @@ const app = new Hono<{
   }
 }>;
 
+app.use("/api/v1/blog*", async(c,next)=>{
+  const header=c.req.header("Authorization") || ""; 
+    const response=await verify(header,c.env.JWT_SECRET);
+    if(response.id){
+      next();  
+    }
+    else{
+      c.status(403);
+      return c.json({
+          "message":"Wrong inputs"
+      })
+    }
+})
+
 app.get('/', (c) => {
   return c.text('Hello Hono!')
 })
