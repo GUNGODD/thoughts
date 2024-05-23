@@ -5,7 +5,8 @@ import {decode,sign,verify} from "hono/jwt";
 
 const app = new Hono<{
   Bindings:{
-    DATABASE_URL:string
+    DATABASE_URL:string,
+    JWT_SECRET:string
   }
 }>;
 
@@ -28,7 +29,7 @@ app.post("/api/v1/signup",async (c)=>{
     } 
    })
 
-   const token = sign({id:user.id},"secret")
+   const token = await sign({id:user.id},c.env.JWT_SECRET )
 
   return c.json({
     message:"This is working",
