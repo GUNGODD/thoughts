@@ -7,6 +7,7 @@ const app = new Hono<{
   Bindings:{
     DATABASE_URL:string,
     JWT_SECRET:string
+
   }
 }>;
 
@@ -92,6 +93,12 @@ app.put("/api/v1/blog",(c)=>{
 })
 
 app.get("/api/v1/blog/:id",(c)=>{
+  return c.json({
+    message:"Getting all blogs by given id"
+  })
+})
+
+app.get("/api/v1/blog/bulk",(c)=>{
   return c.json({
     message:"Getting all blogs"
   })
