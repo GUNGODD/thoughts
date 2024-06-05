@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { Hono } from 'hono'
+import { Hono } from 'hono' 
 import {decode,sign,verify} from "hono/jwt";
+// import { initMiddleware } from './middleware'; 
 
 const app = new Hono<{
   Bindings:{
@@ -9,7 +10,7 @@ const app = new Hono<{
     JWT_SECRET:string
 
   }
-}>;
+}>;  
 
 app.use("/api/v1/blog*", async(c,next)=>{
   const header=c.req.header("Authorization") || ""; 
@@ -37,19 +38,30 @@ app.post("/api/v1/signup",async (c)=>{
 
 
   const body=await c.req.json();
+
+  try{
    const user = await prisma.user.create({
     data:{
       email:body.email,
-      password:body.password
-    } 
+      password:body.password,  
+      name:body.name
+    }     
    })
-
-   const token = await sign({id:user.id},c.env.JWT_SECRET )
-
-  return c.json({
+   var token = await sign({id:user.id},c.env.JWT_SECRET )
+   
+   return c.json({
     message:"This is working",
     token:token
   })
+  }
+  catch(e){
+    c.status(403);
+    return c.text("User already exist")
+  }
+
+   
+
+  
 })
 
 app.post("api/v1/login",async (c)=>{
@@ -76,7 +88,8 @@ app.post("api/v1/login",async (c)=>{
   const jwt=await sign({id:user.id},c.env.JWT_SECRET)
 
   return c.json({
-    message:"Login route is also working"
+    message:"Login route is also working",
+    jwt:jwt
   })
 })
 
