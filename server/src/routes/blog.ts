@@ -1,17 +1,39 @@
 import { Hono } from "hono";
-export const blogRouter=new Hono();
+
 
 
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { PrismaClient } from '@prisma/client/edge'
 import {decode,sign,verify} from "hono/jwt";
 
+const blogRouter = new Hono<{
+    Bindings: {
+      DATABASE_URL: string,
+      JWT_SECRET: string
+    }
+  }>();
+
+blogRouter.use("/*",(c,next)=>{
+    next();
+})
+
 blogRouter.get('/', (c) => {
     return c.text('Hello Hono!')
   })
   
   
-  blogRouter.post("/api/v1/blog",(c)=>{
+  blogRouter.post("/api/v1/blog",async (c)=>{
+    const body=await c.req.json();
+    const prisma=new PrismaClient({
+        datasourceUrl:c.env.DATABASE_URL
+    }).$extends(withAccelerate())
+    await prisma.post.create({
+        data:{
+            title:body.title,
+            content:body.content,
+            authorId:"1"
+        }
+    })
     return c.json({
       message:"Blog post route also working"
     })
