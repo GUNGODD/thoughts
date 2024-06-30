@@ -20,7 +20,7 @@ blogRouter.use("/*",async (c,next)=>{
     const user=await verify(authHeader ||"",c.env.JWT_SECRET);
     if(user){
       c.set("userId",user.id as string);
-      next();
+      await next();
     }
     else{
       c.status(403);
@@ -91,14 +91,6 @@ catch(e){
       id:Post.id
     })
   })
-  
-  blogRouter.get("/:id",async (c)=>{
-    const body=await c.req.json();
-    return c.json({
-      message:"Getting all blogs by given id"
-    })
-  })
-  
   blogRouter.get("/bulk",async(c)=>{
     
     const prisma=new PrismaClient({
@@ -106,6 +98,40 @@ catch(e){
     }).$extends(withAccelerate());
     const Posts=await prisma.post.findMany();
     return c.json({
-      Posts
+      Posts 
     })
   })
+  
+
+  blogRouter.get("/:id", async (c) => {
+    const prisma=new PrismaClient({
+      datasourceUrl:c.env.DATABASE_URL
+    }).$extends(withAccelerate());
+    const id = parseInt(c.req.param("id"), 10); // Convert id to integer
+    try {
+      console.log(`Fetching post with ID: ${id}`);
+  
+      const blog = await prisma.post.findFirst({
+        where: {
+          id: Number(id), // Ensure id is used as an integer
+        },
+      });
+  
+      if (blog) {
+        return c.json({
+          blog,
+        });
+      } else {
+        return c.json({
+          msg: "Blog post not found",
+        }, 404);
+      }
+    } catch (e) {
+      console.error('Error fetching blog post:', e);
+      return c.json({
+        msg: "Something bad happened",
+      }, 500);
+    } finally {
+      await prisma.$disconnect();
+    }
+  });

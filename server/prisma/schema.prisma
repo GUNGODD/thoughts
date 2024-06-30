@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(uuid())
+  id       Int      @id @default(autoincrement())
   email    String   @unique
   name     String?
   password String
@@ -16,10 +16,10 @@ model User {
 }
 
 model Post {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement()) // Ensure id is an integer and autoincrementing
   title     String
   content   String
   published Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
+  authorId  Int
 }

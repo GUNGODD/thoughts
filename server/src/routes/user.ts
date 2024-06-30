@@ -46,7 +46,7 @@ userRouter.post("/signup", async (c) => {
       });
     } catch (e) {
       c.status(403);
-      return c.text("User already exists");
+      return c.text("Something bad happened");
     }
   });
   
