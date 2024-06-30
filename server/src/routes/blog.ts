@@ -1,7 +1,6 @@
 import { Hono } from "hono";
 
 
-
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { PrismaClient } from '@prisma/client/edge'
 import {decode,sign,verify} from "hono/jwt";
@@ -14,6 +13,7 @@ export const blogRouter = new Hono<{
       userId:string;
     }
   }>();
+
 
 blogRouter.use("/*",async (c,next)=>{
     const authHeader=c.req.header("authorization");
@@ -31,6 +31,7 @@ blogRouter.use("/*",async (c,next)=>{
     }
   }
   catch(e){
+    c.status(403);
     return c.json({
       "msg":"You're not logged in"
     })

@@ -3,7 +3,8 @@ import { Hono } from "hono";
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { PrismaClient } from '@prisma/client/edge';
 import { decode, sign, verify } from "hono/jwt";
-
+import z from "zod";
+import { signupInput } from "../zod";
 
 const userRouter = new Hono<{
   Bindings: {
@@ -11,6 +12,8 @@ const userRouter = new Hono<{
     JWT_SECRET: string
   }
 }>();
+
+
 
 //Testing
 userRouter.get("/",async (c)=>{
@@ -28,7 +31,15 @@ userRouter.post("/signup", async (c) => {
     }).$extends(withAccelerate());
   
     const body = await c.req.json();
-  
+    const {success}=signupInput.safeParse(body);
+    
+    if(!success){
+      c.status(411);
+      return c.json({
+        message:"Inputs are not correct"
+      })
+    }
+
     try {
       const user = await prisma.user.create({
         data: {
