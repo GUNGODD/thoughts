@@ -3,7 +3,7 @@ export const Quote=()=>{
         <div className="text-center font-bold text-2xl">
         "Been using thoughts from past couple of days it's been an awesome experience. The updates are on time and support team was very helpful and quick"
         </div>
-        <div className="mt-10 ml-4 font-bold text-lg">
+        <div className="mt-10 ml-4 font-bold text-md">
             Anurag Negi
         </div>
         <div className="ml-4 text-sm">
