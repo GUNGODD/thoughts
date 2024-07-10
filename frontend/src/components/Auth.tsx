@@ -33,33 +33,33 @@ export const Auth=({type}: {type:"signup" | "signin"})=>{
                 {type==="signin"?"Sign in to exisiting account":"Create an account"}
             </div>
             <div className="ml-10 tex-slate-400 text-sm font-light">
-            {type==="signin"?"Already have an account?":"Don't have account?"}
+            {type==="signin"?"Dont have account?":"Already have account?"}
                 <Link to={type==="signin"?"/signup":"/signin"} className="pl-2 font-semibold underline underline-offset-2">
                 {type==="signin"?"Sign up":"Sign in"}
                 </Link>
             </div>
           <div className="mt-6 space-y-5">
-            {type==="signup"?<LabelledInput label="Email" type="text" placeholder="example@gmail.com" onChange={(e)=>{
+            <LabelledInput label="Email" type="text" placeholder="example@gmail.com" onChange={(e)=>{
                setPostInputs({
                 ...postInputs,
                 email:e.target.value
                })
 
-            }} />:null}
-            <LabelledInput label="Username" type="text" placeholder="Password" onChange={(e)=>{
+            }} />
+            <LabelledInput label="Password" type="text" placeholder="Password" onChange={(e)=>{
                setPostInputs({
                 ...postInputs,
                 password:e.target.value
                })
 
             }} />
-            <LabelledInput label="Name" type="text" placeholder="anurag negi" onChange={(e)=>{
+            {type==="signup"?<LabelledInput label="Name" type="text" placeholder="anurag negi" onChange={(e)=>{
                setPostInputs({
                 ...postInputs,
                 name:e.target.value
                })
 
-            }} />
+            }} />:null}
             <button onClick={SendRequest} type="button" className="w-full  text-gray-900 hover:text-white border border-gray-800 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">{type==="signup"?"Sign up":"Sign in"}</button>
         </div>
         
