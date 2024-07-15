@@ -1,21 +1,18 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Signup } from './pages/Signup'
-import { Signin } from './pages/Signin'
-import { Blog } from './pages/Blog'
-
 function App() {
-
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/blog/:id" element={<Blog />} />
-        </Routes>
-      </BrowserRouter>
+      <div>
+        <h2> Hello I am App.tsx</h2>
+
+        <div>
+          <button className="border border-green-400 m-4 p-3 rounded-lg ">
+            <a href="/signup">Signup</a>
+          </button>
+        </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
+
