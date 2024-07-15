@@ -1,52 +1,53 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-const PostaExample = () => {
-  const BASE_URL = "https://jsonplaceholder.typicode.com/posts";
-  const [data, SetData] = useState([]);
-
-  // interface
-  interface Post {
-    id: number;
-    title: string;
-    body: string;
-    author: string;
-    published: boolean;
-  }
-
-  useEffect(() => {
-    fetch(BASE_URL)
-      .then((res) => res.json())
-      .then((data) => SetData(data))
-      .catch((err) => console.log(err));
-  });
-
+export const BlogPosts = () => {
   return (
     <>
-      <div className="text-center text-3xl text-blue-600">
-        <h1> Post Data</h1>
-        {data.map((post: Post) => {
-          return (
-            <div
-              key={post.id}
-              className="bg-white shadow-md rounded-lg p-4 m-4"
-            >
-              <h2 className="text-xl font-bold">{post.title}</h2>
-              <p className="text-gray-600">{post.body}</p>
-              <p className="text-gray-600">Author: {post.author}</p>
-              <p className="text-gray-600">Published: {post.published}</p>
-            </div>
-          );
-        })}
+      <div>
+        <h1 className="text-4xl text-center "> Posts </h1>
+        <Example />
       </div>
     </>
   );
 };
 
-const DisplayPost = () => {
+function Example() {
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["blogData"],
+    queryFn: () =>
+      fetch("https://server.chauhanadityac01.workers.dev/api/v1/blog?", {
+        headers: {
+          Authorization:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mn0.GEX2SiimusxLz0Hrpfw3poaAgmLIvF-8n122PjL4s28",
+        },
+      }).then((res) => res.json()),
+  });
+
+  if (isLoading) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
+
   return (
     <div>
-      <h1> Posts </h1>
+      {data.Post.map((post: any) => (
+        <div key={post.id} className="mb-4">
+          <h2 className="text-2xl  ">
+            {" "}
+            <strong>Title:</strong> {post.title}
+          </h2>
+          <p className="text-2xl ">
+            <strong>Content:</strong> {post.content}
+          </p>
+          <p>
+            <strong>Author ID:</strong> {post.authorId}
+          </p>
+          <p>
+            <strong>Published:</strong> {post.published ? "Yes" : "No"}
+          </p>
+        </div>
+      ))}
     </div>
   );
-};
-export default DisplayPost;
+}
+
+export default BlogPosts;
