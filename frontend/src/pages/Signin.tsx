@@ -1,5 +1,5 @@
-import { Auth } from "../components/Auth";
-import { Quote } from "../components/Quote";
+import { Auth } from "../COMPONENTS/Auth";
+import { Quote } from "../COMPONENTS/Quote";
 
 export const Signin = () => {
   return (
@@ -15,4 +15,3 @@ export const Signin = () => {
     </div>
   );
 };
-
