@@ -17,7 +17,7 @@ function Example() {
   
   const token=localStorage.getItem("token");
   if(!token){
-    return <p>Please login</p>
+    return <p>Login to see posts</p>
   }
   const { isLoading, error, data } = useQuery({
     queryKey: ["blogData"],
@@ -49,7 +49,7 @@ function Example() {
             <strong>Author ID:</strong> {post.authorId}
           </p>
           <p>
-            {/* <strong>Published:</strong> {post.published ? "Yes" : "No"} */}
+            <strong>Published:</strong> {post.published ? "Yes" : "No"}
           </p>
         </div>
       ))}
