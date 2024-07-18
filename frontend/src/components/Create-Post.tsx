@@ -1,12 +1,13 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 interface IFormInput {
   title: string;
   contnt: string;
 }
 
-const BASE_URL = "https://server.anurag-negi862.workers.dev/api/v1/blog";
+const BASE_URL =  `${BACKEND_URL}/api/v1/blog`;
 export const CreatePost = () => {
     const token=localStorage.getItem("token");
     if(!token){
