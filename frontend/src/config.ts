@@ -1,1 +1,1 @@
-export const BACKEND_URL = "https://server.anurag-negi862.workers.dev"
+export const BACKEND_URL="https://server.chauhanadityac01.workers.dev";

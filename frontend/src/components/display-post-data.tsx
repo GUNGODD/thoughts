@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL } from "@/config";
 
 export const BlogPosts = () => {
   return (
@@ -14,20 +14,20 @@ export const BlogPosts = () => {
 };
 
 function Example() {
-  
-  const token=localStorage.getItem("token");
-  if(!token){
-    return <p>Login to see posts</p>
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return <p>Login to see posts</p>;
   }
   const { isLoading, error, data } = useQuery({
     queryKey: ["blogData"],
     queryFn: () =>
-      axios.get(`${BACKEND_URL}/api/v1/blog`, {
-        headers: {
-          Authorization:
-            token
-        },
-      }).then((res) => res.data),
+      axios
+        .get(`${BACKEND_URL}/api/v1/blog`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => res.data),
   });
 
   if (isLoading) return "Loading...";
