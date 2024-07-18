@@ -7,12 +7,12 @@ interface IFormInput {
   contnt: string;
 }
 
-const BASE_URL =  `${BACKEND_URL}/api/v1/blog`;
+const BASE_URL = `${BACKEND_URL}/api/v1/blog`;
 export const CreatePost = () => {
-    const token=localStorage.getItem("token");
-    if(!token){
-        return <p>Please login</p>
-    }
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return <p>Please login</p>;
+  }
   const { register, handleSubmit, reset } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
@@ -24,8 +24,7 @@ export const CreatePost = () => {
         },
         {
           headers: {
-            Authorization:token
-              
+            Authorization: token,
           },
         },
       );
@@ -68,3 +67,4 @@ export const CreatePost = () => {
 };
 
 export default CreatePost;
+

@@ -2,11 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BACKEND_URL } from "@/config";
 
+import CreatePost from "./Create-Post";
 export const BlogPosts = () => {
   return (
     <>
       <div>
         <h1 className="text-4xl text-center "> Posts </h1>
+        <div className="gap-4 m-4 ">
+          <CreatePost />
+        </div>
         <Example />
       </div>
     </>
