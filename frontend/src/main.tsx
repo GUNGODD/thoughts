@@ -8,7 +8,8 @@ import { Signup } from "./pages/Signup";
 import { Blog } from "./pages/Blog";
 import { Signin } from "./pages/Signin.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import BlogPosts from "./components/display-post-data.tsx";
+import BlogPosts from "./components/Display-post-data.tsx";
+import CreatePost from "./components/Create-Post.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
   {
     path: "/blogs",
     element: <BlogPosts />,
-  },
+  },  
+  {
+    path: "/createpost",
+    element: <CreatePost />,
+  }
 ]);
 
 //  React Query Provider
